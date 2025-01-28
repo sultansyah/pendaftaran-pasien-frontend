@@ -5,6 +5,7 @@ import DashboardView from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import NotFound from '@/views/NotFound.vue'
 import QueueView from '@/views/QueueView.vue'
+import VerifikasiLamaAtauBaruView from '@/views/VerifikasiLamaAtauBaruView.vue'
 
 let routes = [
   {
@@ -29,7 +30,13 @@ let routes = [
     component: QueueView,
   },
   {
-    path: '/:pathMatch(.*)*',
+    path: '/verification-patient',
+    name: 'verification-patient',
+    component: VerifikasiLamaAtauBaruView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/notfound',
     name: 'notfound',
     component: NotFound,
   },
@@ -42,9 +49,12 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
+  
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
-  } else if(!to.meta.requiresAuth && authStore.isAuthenticated) {
+  } else if (to.matched.length === 0) {
+    next('/notfound')
+  } else if (!to.meta.requiresAuth && authStore.isAuthenticated && to.name !== 'notfound') {
     next('/dashboard')
   } else {
     next()

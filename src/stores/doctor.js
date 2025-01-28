@@ -8,7 +8,6 @@ export const useDoctorStore = defineStore('doctor', {
     state: () => ({
         doctors: [],
     }),
-    persist: true,
     actions: {
         async get() {
             try {

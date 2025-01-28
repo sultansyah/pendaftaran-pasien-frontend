@@ -24,28 +24,22 @@
             </div>
             <button type="submit"
                 class="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Login</button>
-            <p v-if="error" class="mt-4 text-red-500 text-sm">{{ error }}</p>
         </form>
     </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { inject, reactive } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import router from '@/router';
 
-const now = new Date();
-const yyyy = now.getFullYear();
-const mm = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
-const dd = now.getDate().toString().padStart(2, '0');
-const hh = now.getHours().toString().padStart(2, '0');
-const min = now.getMinutes().toString().padStart(2, '0');
+const globalFunction = inject('globalFunctions')
 
 const data = reactive({
     staff_code: '',
     staff_name: '',
     password: '',
-    date: `${yyyy}-${mm}-${dd}T${hh}:${min}`,
+    date: globalFunction.getDatetimeToday(),
 })
 
 const login = async () => {

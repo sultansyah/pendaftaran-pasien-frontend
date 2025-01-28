@@ -8,7 +8,6 @@ export const usePolyclinicStore = defineStore('polyclinic', {
     state: () => ({
         polyclinics: [],
     }),
-    persist: true,
     actions: {
         async get() {
             try {
