@@ -39,10 +39,10 @@ axios.interceptors.response.use(
 
                 const status = error.response.data.status
                 const code = error.response.data.code
-                
+
                 if (status == "unauthorized" || code == 401) {
                     toast.clear()
-                    
+
                     const authStore = useAuthStore()
                     await authStore.refreshToken()
                     if (!authStore.$state.isAuthenticated) {

@@ -5,7 +5,7 @@
       <!-- Sidebar -->
       <Sidebar v-if="authStore.isAuthenticated" />
       <!-- Content -->
-      <div class="flex-1 p-4">
+      <div class="flex-1 p-4 overflow-x-auto">
         <RouterView />
       </div>
     </div>

@@ -57,6 +57,6 @@
   </section>
 </template>
 
-<script>
+<script setup>
 
 </script>
