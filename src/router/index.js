@@ -6,8 +6,9 @@ import { useAuthStore } from '@/stores/auth'
 import NotFound from '@/views/NotFound.vue'
 import QueueView from '@/views/QueueView.vue'
 import VerifikasiLamaAtauBaruView from '@/views/VerifikasiLamaAtauBaruView.vue'
+import { routeDashboard } from './routeDashboard'
 
-let routes = [
+const routes = [
   {
     path: '/',
     name: 'home',
@@ -25,17 +26,6 @@ let routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/queue',
-    name: 'queue',
-    component: QueueView,
-  },
-  {
-    path: '/verification-patient',
-    name: 'verification-patient',
-    component: VerifikasiLamaAtauBaruView,
-    meta: { requiresAuth: true }
-  },
-  {
     path: '/notfound',
     name: 'notfound',
     component: NotFound,
@@ -44,7 +34,7 @@ let routes = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: routes,
+  routes: routes.concat(routeDashboard),
 })
 
 router.beforeEach(async (to, from, next) => {

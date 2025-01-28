@@ -1,5 +1,5 @@
 <template>
-    Queue
+    Register
 </template>
 
 <script setup>

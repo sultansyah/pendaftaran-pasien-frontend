@@ -1,5 +1,5 @@
 <template>
-    Queue
+    Polyclinic
 </template>
 
 <script setup>

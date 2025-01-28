@@ -1,5 +1,5 @@
 <template>
-    Queue
+    Transaction
 </template>
 
 <script setup>

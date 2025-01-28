@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
 import { useAuthStore } from './stores/auth'
+import router from './router'
 
 const toast = useToast()
 
@@ -27,7 +28,7 @@ axios.interceptors.response.use(
         }
         return response
     },
-    error => {
+    async error => {
         try {
             if (error.config?.toastId) {
                 toast.dismiss(error.config.toastId)
@@ -38,15 +39,17 @@ axios.interceptors.response.use(
 
                 const status = error.response.data.status
                 const code = error.response.data.code
+                
                 if (status == "unauthorized" || code == 401) {
-                    const authStore = useAuthStore()
-                    authStore.$state.user = null;
-                    authStore.$state.isAuthenticated = false;
-
                     toast.clear()
-                    toast.error('Sesi Anda telah berakhir. Silakan login kembali.')
                     
-                    router.push('/login')
+                    const authStore = useAuthStore()
+                    await authStore.refreshToken()
+                    if (!authStore.$state.isAuthenticated) {
+                        router.push('/login')
+                    } else {
+                        window.location.reload()
+                    }
                 } else {
                     console.error(`Error: ${message}`)
                     toast.error(message)

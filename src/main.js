@@ -15,9 +15,7 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
 const app = createApp(App)
-
 app.provide('globalFunctions', useGlobalFunctions())
-
 app.use(pinia)
 app.use(router)
 app.use(Toast, {

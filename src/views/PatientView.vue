@@ -1,5 +1,5 @@
 <template>
-    Queue
+    Patient
 </template>
 
 <script setup>

@@ -26,6 +26,22 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
+        async refreshToken() {
+            try {
+                const response = await axios.post('/auth/refresh-token');
+
+                if (response.status === 200) {
+                    this.isAuthenticated = true;
+                    toast.success('Refresh Token success');
+                }
+            } catch (error) {
+                this.user = null;
+                this.isAuthenticated = false;
+                console.error('Refresh Token failed:', error);
+                toast.error('Refresh Token failed');
+            }
+        },
+
         async forgotPassword(staff_code, staff_name, password) {
             try {
                 const response = await axios.post('/auth/forgot-password', { staff_code, staff_name, password});

@@ -1,5 +1,5 @@
 <template>
-    Queue
+    Medical Record
 </template>
 
 <script setup>
