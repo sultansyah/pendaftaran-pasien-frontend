@@ -5,15 +5,26 @@
             {{ showForm ? "Sembunyikan" : "Form Data Registrasi" }}
         </button>
 
+        <div class="mb-4">
+            <label for="date" class="block text-sm font-medium text-gray-600">Tanggal</label>
+            <input 
+                v-model="date" 
+                id="date" 
+                type="date" 
+                class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
+                @change="filterDate" 
+            />
+        </div>
+
         <Form v-if="showForm" @submit="handleFormSubmit" :form="form" :polyclinicData="polyclinicData"
             :doctorData="doctorData" :registers="registerData" :toggleEdit="toggleEdit" />
 
-        <DataTable :data="registers" :columns="columns" @edit="prepareEditForm" @delete="confirmDelete" />
+        <DataTable :data="filteredRegisters" :columns="columns" @edit="prepareEditForm" @delete="confirmDelete" @view="view" />
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject, computed } from "vue";
 import { useRegisterStore } from "@/stores/register";
 import Swal from "sweetalert2";
 import DataTable from "@/components/DataTable.vue";
@@ -21,6 +32,11 @@ import Form from "@/components/registerPatient/Form.vue";
 import { useRoute } from "vue-router";
 import { usePolyclinicStore } from "@/stores/polyclinic";
 import { useDoctorStore } from "@/stores/doctor";
+import router from "@/router";
+
+const globalFunctions = inject('globalFunctions')
+
+const date = ref(globalFunctions.getDateToday());
 
 const route = useRoute();
 
@@ -91,6 +107,17 @@ onMounted(async () => {
 const toggleForm = () => {
     showForm.value = !showForm.value;
 };
+
+const filteredRegisters = computed(() => {
+    if (!date.value) {
+        return registers.value;
+    }
+
+    return registers.value.filter(item => {
+        const createdAt = formattedDate(item.created_at);
+        return createdAt === date.value;
+    });
+});
 
 const fetchRegisters = async () => {
     await registerStore.get();
@@ -163,11 +190,17 @@ const handleFormSubmit = async (action) => {
     }
 
     if (!registerStore.$state.isError) {
-        resetForm();
-        showForm.value = false;
+        // resetForm();
+        // showForm.value = false;
         fetchRegisters();
+        view(registerStore.$state.register.register.register_id)
     }
 };
+
+const view = (registerId) => {
+    router.push(`/view-queue-register/${registerId}`);
+}
+
 
 const prepareEditForm = (register) => {
     form.value = { ...register };
@@ -188,8 +221,18 @@ const confirmDelete = async (register) => {
     }
 };
 
-const formattedDatetime = (date) => {
-    const newDate = new Date(date);
-    return newDate.toISOString().slice(0, 16);
+const formattedDatetime = (datestr) => {
+    const dateF = new Date(datestr);
+    return dateF.toISOString().replace('T', ' ').slice(0, 19);
+}
+
+const formattedDate = (datestr) => {
+    const dateF = new Date(datestr);
+    const year = dateF.getFullYear();
+    const month = String(dateF.getMonth() + 1).padStart(2, '0');
+    const day = String(dateF.getDate()).padStart(2, '0');
+
+    // format YYYY-MM-DD
+    return `${year}-${month}-${day}`;
 }
 </script>

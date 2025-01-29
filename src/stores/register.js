@@ -7,6 +7,7 @@ const toast = useToast()
 export const useRegisterStore = defineStore('register', {
     state: () => ({
         registers: [],
+        register: null,
         isError: false,
     }),
     actions: {
@@ -29,6 +30,21 @@ export const useRegisterStore = defineStore('register', {
             }
         },
 
+        async getByRegisterId(registerId) {
+            try {
+                const response = await axios.get(`/registers/${registerId}`);
+
+                if (response.status === 200) {
+                    this.register = response.data.data || [];
+
+                    response.data?.data ? toast.success('Data pendaftaran pasien ditemukan') : toast.error('Data pendaftaran pasien tidak ditemukan')
+                }
+            } catch (error) {
+                console.error('Get data register patient failed:', error);
+                toast.error('Get data register patient failed');
+            }
+        },
+
         async add(data) {
             try {
                 data.registration_fee = parseFloat(data.registration_fee)
@@ -39,7 +55,7 @@ export const useRegisterStore = defineStore('register', {
                 const response = await axios.post('/registers', data);
 
                 if (response.status === 200) {
-                    this.registers = response.data.data;
+                    this.register = response.data.data;
                     toast.success('Berhasil menambah data pendaftaran pasien');
                     this.isError = false
                 }

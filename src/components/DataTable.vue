@@ -30,6 +30,10 @@
                             @click="$emit('delete', row)">
                             Delete
                         </button>
+                        <button class="px-2 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 ml-2"
+                            @click="$emit('view', row.register_id)">
+                            View
+                        </button>
                     </template>
 
                     <template v-else-if="column.field === 'medical_record_date'">

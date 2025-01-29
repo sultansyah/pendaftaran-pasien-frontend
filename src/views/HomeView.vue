@@ -3,10 +3,10 @@
   <section class="flex-grow bg-blue-600 text-white py-20">
     <div class="container mx-auto px-4 text-center">
       <h2 class="text-4xl font-bold mb-7">Selamat Datang di Sistem Pendaftaran Pasien</h2>
-      <router-link to="/queue"
+      <RouterLink to="/queue-today"
         class="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-md hover:bg-gray-200">
         Lihat Antrian
-      </router-link>
+      </RouterLink>
     </div>
   </section>
 

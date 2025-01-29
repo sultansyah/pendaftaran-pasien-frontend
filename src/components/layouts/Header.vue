@@ -5,7 +5,7 @@
             <a :href="(authStore.isAuthenticated) ? '/dashboard' : '/'"><h1 class="text-2xl font-bold text-gray-800">RSU Sakina Idaman</h1></a>
             <nav>
                 <ul v-if="!authStore.isAuthenticated" class="flex space-x-4">
-                    <li><a href="/queue" class="text-gray-600 hover:text-blue-600">Antrian</a></li>
+                    <li><a href="/queue-today" class="text-gray-600 hover:text-blue-600">Antrian</a></li>
                     <li><a href="/login" class="text-gray-600 hover:text-blue-600">Login</a></li>
                 </ul>
                 <ul v-else class="flex space-x-4">

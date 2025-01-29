@@ -25,8 +25,7 @@ import Swal from "sweetalert2";
 
 const globalFunctions = inject('globalFunctions')
 
-// const date = ref(globalFunctions.getDateToday());
-const date = ref('');
+const date = ref(globalFunctions.getDateToday());
 const toggleEdit = ref(false);
 const queueStore = useQueueStore();
 const queues = ref([]);
@@ -50,8 +49,6 @@ const columns = [
 ];
 
 const confirmCompleted = async (queue) => {
-    console.log("hehe");
-    
     const result = await Swal.fire({
         title: `Selesaikan antrian ${queue.queue_number}?`,
         showDenyButton: true,

@@ -5,12 +5,25 @@ import DashboardView from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import NotFound from '@/views/NotFound.vue'
 import { dashboards } from './dashboard'
+import QueueTodayView from '@/views/QueueTodayView.vue'
+import ViewQueueRegister from '@/views/ViewQueueRegister.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView,
+  },
+  {
+    path: '/queue-today',
+    name: 'queue-today',
+    component: QueueTodayView,
+  },
+  {
+    path: '/view-queue-register/:registerId',
+    name: 'view-queue-register',
+    component: ViewQueueRegister,
+    meta: { layout: false },
   },
   {
     path: '/login',
@@ -37,7 +50,11 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
-  
+
+  if (to.name == "view-queue-register") {
+    next()
+  }
+
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
   } else if (to.matched.length === 0) {
