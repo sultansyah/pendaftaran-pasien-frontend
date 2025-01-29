@@ -4,9 +4,7 @@ import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import NotFound from '@/views/NotFound.vue'
-import QueueView from '@/views/QueueView.vue'
-import VerifikasiLamaAtauBaruView from '@/views/VerifikasiLamaAtauBaruView.vue'
-import { routeDashboard } from './routeDashboard'
+import { dashboards } from './dashboard'
 
 const routes = [
   {
@@ -34,7 +32,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: routes.concat(routeDashboard),
+  routes: routes.concat(dashboards),
 })
 
 router.beforeEach(async (to, from, next) => {

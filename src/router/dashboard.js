@@ -6,7 +6,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import TransactionView from "@/views/TransactionView.vue";
 import VerifikasiLamaAtauBaruView from "@/views/VerifikasiLamaAtauBaruView.vue";
 
-export const routeDashboard = [
+export const dashboards = [
     {
         path: '/verification-patient',
         name: 'verification-patient',
@@ -14,7 +14,7 @@ export const routeDashboard = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/register',
+        path: '/register/:medicalRecordNo?/:identityType?/:identityNumber?/:showForm?',
         name: 'register',
         component: RegisterView,
         meta: { requiresAuth: true }

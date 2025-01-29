@@ -29,7 +29,7 @@
                         required disabled />
                 </div>
                 <div>
-                    <label for="discount" class="block font-medium">Diskon Biaya</label>
+                    <label for="discount" class="block font-medium">Diskon Biaya %</label>
                     <input v-model="form.discount" id="discount" type="number" step="0.1" @input="calculateTotalCost"
                         class="w-full px-3 py-2 border rounded" required />
                 </div>

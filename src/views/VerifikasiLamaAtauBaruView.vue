@@ -5,8 +5,17 @@
 
             <form @submit.prevent="verification" class="mb-8 max-w-lg mx-auto space-y-6">
                 <div class="mb-4">
+                    <label for="identity_type" class="block font-medium">Jenis Identitas</label>
+                    <select v-model="identityType" id="identity_type" class="w-full px-3 py-2 border rounded"
+                        required>
+                        <option value="KTP">KTP</option>
+                        <option value="SIM">SIM</option>
+                        <option value="Passport">Passport</option>
+                    </select>
+                </div>
+                <div class="mb-4">
                     <label for="identityNumber" class="block text-sm font-semibold text-gray-700 mb-2">
-                        No Pengenal, seperti no KTP
+                        No Identitas
                     </label>
                     <input type="text" id="identityNumber" v-model="identityNumber" required
                         class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
@@ -44,9 +53,10 @@
                     </svg>
                     <p class="text-blue-600 text-sm font-medium">Data pasien ditemukan</p>
                 </div>
-                <a href="/register"
-                    class="py-3 px-5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 block mt-4 text-center">Daftarkan
-                    antrian pasien?</a>
+                <RouterLink :to="`/register/${medicalRecordData.medical_record_no}/${identityType}/${identityNumber}/true`"
+                    class="py-3 px-5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 block mt-4 text-center">
+                    Daftarkan
+                    antrian pasien?</RouterLink>
             </div>
 
             <!-- Patient Details -->
@@ -71,12 +81,14 @@ import { useMedicalRecordStore } from '@/stores/medicalRecord';
 import { ref } from 'vue';
 
 const identityNumber = ref('');
+const identityType = ref('');
+
 const error = ref('');
 const medicalRecordData = ref(null);
 
 const verification = async () => {
     const medicalRecord = useMedicalRecordStore();
-    await medicalRecord.get(`identity_number=${identityNumber.value}`);
+    await medicalRecord.get(`identity_number=${identityNumber.value}&identity_type=${identityType.value}`);
 
     if (medicalRecord.$state.medicalRecords.length === 0) {
         error.value = "No pengenal tidak ditemukan";
