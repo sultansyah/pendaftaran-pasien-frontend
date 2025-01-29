@@ -6,6 +6,10 @@ export const useGlobalFunctions = () => {
         }).format(value)
     }
 
+    const formatCurrencyToRequest = (value) => {
+        return parseFloat(form.value.registration_fee.replace('Rp ', '').replace('.', '').replace(',', '.'));
+    }
+
     // contoh: 2025-01-27
     const getDateToday = () => {
         const today = new Date();
