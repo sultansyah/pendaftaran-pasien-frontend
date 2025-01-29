@@ -39,6 +39,7 @@ axios.interceptors.response.use(
 
                 const status = error.response.data.status
                 const code = error.response.data.code
+                const message = error.response.data.message
 
                 if (status == "unauthorized" || code == 401) {
                     toast.clear()
@@ -50,6 +51,8 @@ axios.interceptors.response.use(
                     } else {
                         window.location.reload()
                     }
+                } else if (code == 409) {
+                    toast.error(message)
                 } else {
                     console.error(`Error: ${message}`)
                     toast.error(message)

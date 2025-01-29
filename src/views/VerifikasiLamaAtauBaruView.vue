@@ -35,7 +35,7 @@
             </div>
 
             <!-- Success Message -->
-            <div class="max-w-lg mx-auto bg-blue-50 p-6 rounded-lg shadow-lg mb-6" v-if="patientData">
+            <div class="max-w-lg mx-auto bg-blue-50 p-6 rounded-lg shadow-lg mb-6" v-if="medicalRecordData">
                 <div class="flex items-center space-x-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
@@ -50,10 +50,10 @@
             </div>
 
             <!-- Patient Details -->
-            <div v-if="patientData" class="bg-gray-50 p-8 rounded-xl">
+            <div v-if="medicalRecordData" class="bg-gray-50 p-8 rounded-xl">
                 <h2 class="text-2xl font-semibold text-gray-900 mb-6 pb-4 border-b border-gray-200">Detail Pasien</h2>
                 <div class="space-y-4">
-                    <div v-for="(value, key) in patientData" :key="key"
+                    <div v-for="(value, key) in medicalRecordData" :key="key"
                         class="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition duration-150 ease-in-out">
                         <div class="flex justify-between items-center">
                             <strong class="text-gray-700 font-medium">{{ formatLabel(key) }}:</strong>
@@ -67,22 +67,22 @@
 </template>
 
 <script setup>
-import { usePatientStore } from '@/stores/patient';
+import { useMedicalRecordStore } from '@/stores/medicalRecord';
 import { ref } from 'vue';
 
 const identityNumber = ref('');
 const error = ref('');
-const patientData = ref(null);
+const medicalRecordData = ref(null);
 
 const verification = async () => {
-    const patientStore = usePatientStore();
-    await patientStore.get(`identity_number=${identityNumber.value}`);
+    const medicalRecord = useMedicalRecordStore();
+    await medicalRecord.get(`identity_number=${identityNumber.value}`);
 
-    if (patientStore.$state.patients.length === 0) {
+    if (medicalRecord.$state.medicalRecords.length === 0) {
         error.value = "No pengenal tidak ditemukan";
-        patientData.value = null;
+        medicalRecordData.value = null;
     } else {
-        patientData.value = patientStore.$state.patients[0];
+        medicalRecordData.value = medicalRecord.$state.medicalRecords[0];
         error.value = '';
     }
 };
