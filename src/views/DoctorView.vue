@@ -62,12 +62,12 @@ const toggleForm = () => {
 
 const fetchDoctors = async () => {
     await doctorStore.get();
-    doctorData.value = doctorStore.$state.doctors;
+    doctorData.value = doctorStore.$state.doctors || [];
 };
 
 const fetchPolyclinics = async () => {
     await polyclinicStore.get();
-    polyclinicData.value = polyclinicStore.$state.polyclinics;
+    polyclinicData.value = polyclinicStore.$state.polyclinics || [];
 };
 
 const resetForm = () => {
